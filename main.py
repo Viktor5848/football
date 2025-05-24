@@ -1,10 +1,10 @@
 import pygame
 pygame.init()
 # window .;)
-window = pygame.display.set_mode((1400, 715))
+window = pygame.display.set_mode((1300, 710))
 background = pygame.image.load("grass.jpg")
-background = pygame.transform.scale(background, (1400, 715))
-pygame.mixer.music.load("Epic Sport Rock - AShamaluevMusic.mp3.crdownload")
+background = pygame.transform.scale(background, (1300, 710))
+pygame.mixer.music.load("music.mp3.mp3")
 pygame.mixer.music.play(-1)
 clock = pygame.time.Clock()
 class Gamesprit():
@@ -45,29 +45,29 @@ class Gamesprit2():
 
 
 class Enemy():
-    def __init__(self,x=0,y=0,height=0,width=0,step=0,radius=0,image_sprite=""):
+    def __init__(self,x=0,y=0,height=0,width=0,radius=0,step=0,image_sprite=""):
         self.image = pygame.image.load(image_sprite)
         self.image = pygame.transform.scale(self.image, (120, 120))
         self.x = x
         self.y = y
         self.height = height
         self.width = width
-        self.step = step
         self.radius = radius
+        self.step = step
     def draw(self,x,y,):
         window.blit(self.image, (self.x, self.y))
-    def move(self):
-        self.x += self.step
+    def update(self):
+        if self.x < 1300:
+            self.x -= self.step
+        else:
+            self.x = 120
+        if self.y < 0 or self.y > 710 - 120:
+            self.step = -self.step
         self.y += self.step
-        if self.x <= self.radius or self.x >= 1700 - self.radius:
-            self.step *= -1
-        if self.y <= self.radius or self.y >= 715 - self.radius:
-            self.step *= -1
 
-
-ball = Enemy(650, 280, 20, 50, 5, "ball.png")
-player = Gamesprit(1250, 250, 20, 50, 5, "stick.png")
-player2 = Gamesprit2(50, 250, 20, 50, 5, "stick.png")
+baller = Enemy(650, 280, 20, 50, 5, 10, "ball.png")
+player = Gamesprit(1180, 250, 20, 50, 5, "stick.png")
+player2 = Gamesprit2(10, 250, 20, 50, 5, "stick.png")
 
 game = True
 while game:
@@ -76,11 +76,11 @@ while game:
             game = False
     window.blit(background, (0, 0))
     player.draw(player.x, player.y)
-    ball.draw(ball.x, ball.y)
+    baller.draw(baller.x, baller.y)
     player2.draw(player2.x, player2.y)
     player.update()
     player2.update2()
-    ball.move()
+    baller.update()
     pygame.display.update()
 
     clock.tick(40)
